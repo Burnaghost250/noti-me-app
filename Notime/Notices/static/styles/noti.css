@@ -1,0 +1,410 @@
+  /* --- Internal CSS for Notime (WhatsApp Inspired) --- */
+
+        /* Define WhatsApp-like root colors */
+        :root {
+            --whatsapp-green-dark: #075E54;   /* Dark green for header/main accents */
+            --whatsapp-green-light: #25D366;  /* Lighter green for buttons/active states */
+            --whatsapp-bg: #DCF8C6;           /* Main page background */
+            --whatsapp-chat-bg: #ECE5DD;      /* Background for the notices container */
+            --notice-bubble-bg: #E0FFD6;      /* Light green for notice cards */
+            --text-color: #333;
+            --light-text-color: #666;
+            --white: #fff;
+            --border-color: #ccc;
+            --input-border-color: #bbb;
+            --important-red: #dc3545;        /* For important markers */
+            --important-red-light: rgba(220, 53, 69, 0.1); /* Lighter tint for important background */
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; /* More WhatsApp-like font stack */
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--whatsapp-bg); /* Lighter green background */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 900px; /* Slightly narrower for a more chat-like feel */
+            margin: 20px auto;
+            padding: 0 15px; /* Consistent padding */
+            flex-grow: 1;
+            background-color: var(--whatsapp-chat-bg); /* Chat-like background for main content */
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column; /* Ensure content stacks vertically */
+            overflow: hidden; /* For rounded corners */
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--whatsapp-green-dark); /* Dark WhatsApp green */
+            color: var(--white);
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8em; /* Slightly smaller for mobile-first */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+
+        .header h1 .fas {
+            font-size: 1em;
+        }
+
+        .search-bar {
+            display: flex;
+            width: 100%; /* Full width in header */
+            max-width: 400px;
+            border-radius: 20px; /* Pill shape */
+            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+        }
+
+        .search-bar input[type="text"] {
+            flex-grow: 1;
+            padding: 8px 15px;
+            border: none;
+            outline: none;
+            font-size: 0.95em;
+            background-color: transparent; /* Transparent background */
+            color: var(--white);
+        }
+
+        .search-bar input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.7); /* Lighter placeholder */
+        }
+
+        .search-bar button {
+            background-color: transparent;
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+
+        /* Add Notice Section (WhatsApp Input Style) */
+        .add-notice-section {
+            padding: 20px 15px;
+            background-color: var(--white); /* White background for input area */
+            border-bottom: 1px solid var(--border-color); /* Separator */
+            border-top-left-radius: 8px; /* Match container border-radius */
+            border-top-right-radius: 8px; /* Match container border-radius */
+        }
+
+        .add-notice-section h2 {
+            display: none; /* Hide heading, make input self-explanatory */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--light-text-color);
+            font-size: 0.9em;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--input-border-color);
+            border-radius: 20px; /* Rounded corners for input */
+            font-size: 1em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            resize: vertical; /* Allow vertical resizing for textarea */
+        }
+
+        .form-group textarea {
+            border-radius: 10px; /* Slightly less rounded for textarea */
+            min-height: 80px;
+        }
+
+
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            border-color: var(--whatsapp-green-light);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px; /* Space before button */
+            font-size: 0.9em;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--whatsapp-green-light);
+            cursor: pointer;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px; /* Pill shape for buttons */
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--whatsapp-green-light);
+            color: var(--white);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%; /* Full width on mobile */
+        }
+
+        .btn-primary:hover {
+            background-color: var(--whatsapp-green-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Notices List Section */
+        .notices-list-section {
+            flex-grow: 1; /* Take remaining vertical space */
+            padding: 20px 15px;
+            overflow-y: auto; /* Scroll if notices overflow */
+            background-color: var(--whatsapp-chat-bg);
+            border-bottom-left-radius: 8px; /* Match container border-radius */
+            border-bottom-right-radius: 8px; /* Match container border-radius */
+        }
+
+        .notices-list-section h2 {
+            color: var(--whatsapp-green-dark);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.6em;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .notices-list-section h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--whatsapp-green-light);
+            border-radius: 1px;
+        }
+
+        .notices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted minmax */
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        /* Notice Card (WhatsApp Bubble Style) */
+        .notice-card {
+            background-color: var(--notice-bubble-bg); /* Light green bubble */
+            border: 1px solid rgba(0, 0, 0, 0.05); /* Very subtle border */
+            border-radius: 12px; /* Smoother rounded corners */
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease;
+            position: relative; /* For the "Important" tag */
+            word-break: break-word; /* Ensure long words wrap */
+        }
+
+        .notice-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .notice-card.important {
+            background-color: var(--important-red-light); /* Light red for important background */
+            border: 1px solid var(--important-red);
+            animation: pulseBorder 1.5s infinite alternate;
+        }
+
+        @keyframes pulseBorder {
+            from {
+                border-color: var(--important-red);
+            }
+            to {
+                border-color: rgba(220, 53, 69, 0.5);
+            }
+        }
+
+        .notice-card h3 {
+            color: var(--whatsapp-green-dark);
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 1.2em; /* Slightly smaller for card titles */
+            font-weight: bold;
+        }
+
+        .notice-card p {
+            color: var(--text-color);
+            font-size: 0.9em; /* Smaller content text */
+            flex-grow: 1;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .notice-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px; /* Smaller gap between buttons */
+            margin-top: 10px;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+        }
+
+        .notice-actions .btn {
+            padding: 6px 12px; /* Smaller action buttons */
+            font-size: 0.8em;
+            border-radius: 15px; /* Pill shape */
+        }
+
+        .btn-danger {
+            background-color: var(--important-red);
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-toggle-important {
+            background-color: #007bff; /* Blue for 'mark important' toggle */
+            color: var(--white);
+        }
+
+        .btn-toggle-important.active {
+            background-color: var(--whatsapp-green-light); /* A more subtle indicator when already important */
+            opacity: 0.8; /* Make it a bit faded when active for a "marked" look */
+        }
+
+        .btn-toggle-important:hover {
+            background-color: #0056b3;
+        }
+
+        .notice-actions .fas {
+            margin-right: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--whatsapp-green-dark);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 0.85em;
+        }
+
+        /* --- Responsive Design (Mobile-First) --- */
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .search-bar {
+                max-width: none; /* Occupy full width on small screens */
+            }
+            .container {
+                margin: 10px auto;
+                padding: 0 10px;
+                border-radius: 0; /* No border radius on very small screens for full width */
+                box-shadow: none;
+            }
+            .add-notice-section {
+                padding: 15px 10px;
+                border-radius: 0;
+            }
+            .notices-list-section {
+                padding: 15px 10px;
+                border-radius: 0;
+            }
+            .notices-grid {
+                grid-template-columns: 1fr; /* Single column on smallest screens */
+                gap: 15px;
+            }
+            .notice-card {
+                padding: 12px;
+                border-radius: 10px; /* Slightly smaller bubble radius */
+            }
+            .notice-card h3 {
+                font-size: 1.1em;
+            }
+            .notice-card p {
+                font-size: 0.85em;
+            }
+            .notice-actions {
+                flex-direction: column; /* Stack buttons vertically */
+                gap: 5px;
+            }
+            .notice-actions .btn {
+                width: 100%;
+                text-align: center;
+                font-size: 0.8em;
+            }
+        }
+
+        @media (min-width: 577px) and (max-width: 768px) {
+            .container {
+                margin: 15px auto;
+                padding: 0 15px;
+            }
+            .notices-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Two columns on tablets */
+            }
+        }
+
+        /* Specific styles for message when no notices exist */
+        .no-notices-message {
+            text-align: center;
+            color: var(--light-text-color);
+            margin-top: 30px;
+            font-size: 1.1em;
+            padding: 20px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }

@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noti-me | Developer Side</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlalHpxh0N6qfJ+b1o+2A2sWk4y2d9L2/Kx4f2Q2qI/S8pG/rN5nO3tVn4n0b2qW7wK8z3sY2W3v7B7w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #34A853;
+            --dark-green: #2B7C41;
+            --light-green-bg: #F0F4F8;
+            --card-bg: #ffffff;
+            --text-dark: #202124;
+            --text-light: #5F6368;
+            --border-light: #DADCE0;
+            --shadow-subtle: rgba(60, 64, 67, 0.15);
+            --important-red: #DB4437;
+            --search-border-focus: #4285F4;
+            --button-hover-green: #2E8B4E;
+            --text-color-white: #ffffff;
+            --backdrop-color: rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light-green-bg);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: var(--dark-green);
+            color: var(--text-color-white);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px var(--shadow-subtle);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-logo {
+            height: 40px;
+            margin-right: 15px;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            font-weight: 500;
+            color: var(--text-color-white);
+        }
+
+        .header h1 .fas {
+            margin-right: 10px;
+            color: var(--primary-green);
+        }
+
+        .container {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 25px;
+            text-align: center;
+        }
+
+        .developer-section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-subtle);
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-light);
+        }
+
+        .developer-section h2 {
+            font-size: 2.5em;
+            color: var(--primary-green);
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .developer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .developer-card {
+            background-color: var(--light-green-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid var(--border-light);
+        }
+
+        .developer-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .developer-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 4px solid var(--primary-green);
+            box-shadow: 0 0 0 5px rgba(52, 168, 83, 0.3);
+        }
+
+        .developer-card h3 {
+            font-size: 1.8em;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .developer-card p {
+            font-size: 1.1em;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .developer-card .social-links a {
+            color: var(--primary-green);
+            font-size: 1.5em;
+            margin: 0 10px;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .developer-card .social-links a:hover {
+            color: var(--dark-green);
+            transform: scale(1.1);
+        }
+        
+        .footer {
+            background-color: var(--dark-green);
+            color: var(--text-color-white);
+            padding: 20px 30px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 -2px 5px var(--shadow-subtle);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            gap: 15px;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        .footer a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: var(--button-hover-green);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .developer-section h2 {
+                font-size: 2em;
+            }
+            .developer-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .developer-card {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div style="display: flex; align-items: center; flex-shrink: 0;">
+            <img src="{% static 'images/haven.png' %}" alt="School Logo" class="header-logo">
+            <h1><i class="fas fa-bullhorn"></i> Noti-me</h1>
+        </div>
+        <div>
+            <small><b>Made with ❤️ by Ministry of ICT </b><a href="{% url 'login' %}"> Login</a></small>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="developer-section">
+            <h2>Meet the Developers</h2>
+            <p>We are a passionate teem ,commonly known as ICT minister at Hope HAven Christian School</p>
+            <div class="developer-grid">
+                <div class="developer-card">
+                    <img src="{% static 'images/burna.jpg' %}" alt="Gwiza Elvis Messy">
+                    <h3>Gwiza Elvis Messy</h3>
+                    <p>Backend Developer ,using Django | python </p>
+                    <div class="social-links">
+                        <a href="#" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="developer-card">
+                    <img src="{% static 'images/dave.jpg' %}" alt="Humure Dave Elio">
+                    <h3>Humure Dave Elio</h3>
+                    <p>Frontend & UI design </p>
+                    <div class="social-links">
+                        <a href="#" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; Elite made ❤️, Hope Haven School</p>
+          <p><a href="{% url 'developer_side' %}">Developer Side</a></p>
+        <p><a href="{% url 'notices' %}">HOME</a></p>
+    </footer>
+</body>
+</html>

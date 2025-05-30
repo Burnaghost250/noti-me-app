@@ -1,0 +1,780 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noti-me | Campus Notices</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlalHpxh0N6qfJ+b1o+2A2sWk4y2d9L2/Kx4f2Q2qI/S8pG/rN5nO3tVn4n0b2qW7wK8z3sY2W3v7B7w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght=400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- Professional Green Theme for Student Notices (Google-Inspired) --- */
+        :root {
+            --primary-green: #34A853; /* Google-like green */
+            --dark-green: #2B7C41;    /* Darker green for header */
+            --light-green-bg: #F0F4F8; /* Very light, subtle grey-blue background */
+            --card-bg: #ffffff;      /* Pure white for notice cards */
+            --text-dark: #202124;     /* Google-like dark text */
+            --text-light: #5F6368;    /* Google-like secondary text */
+            --border-light: #DADCE0;  /* Light grey border */
+            --shadow-subtle: rgba(60, 64, 67, 0.15); /* Soft Google-like shadow */
+            --important-red: #DB4437; /* Google-like red for important */
+            --search-border-focus: #4285F4; /* Google blue for focus */
+            --button-hover-green: #2E8B4E; /* Slightly darker green on hover */
+            --text-color-white: #ffffff; /* Explicit white for text on dark backgrounds */
+            --backdrop-color: rgba(0, 0, 0, 0.6); /* For modal backdrop */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif; /* Primary font */
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light-green-bg);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Header Styling --- */
+        .header {
+            background-color: var(--dark-green);
+            color: var(--text-color-white);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            box-shadow: 0 2px 5px var(--shadow-subtle); /* Lighter, more subtle shadow */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-logo {
+            height: 40px; /* Slightly larger logo */
+            margin-right: 15px;
+        }
+
+        .header h1 {
+            font-size: 1.8em; /* Larger, more prominent title */
+            margin: 0;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            font-weight: 500; /* Medium weight for title */
+            color: var(--text-color-white); /* Ensure title is white */
+        }
+
+        .header h1 .fas {
+            margin-right: 10px;
+            color: var(--primary-green); /* Use primary green on dark background */
+        }
+
+        /* Search Form */
+        .header form {
+            flex-grow: 1;
+            max-width: 600px; /* Wider search bar */
+            display: flex;
+            border-radius: 8px; /* More rounded */
+            overflow: hidden;
+            background-color: var(--card-bg);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow on search bar */
+        }
+
+        .header form input[type="text"] {
+            flex: 1;
+            padding: 12px 18px; /* More padding */
+            border: none;
+            background-color: transparent;
+            color: var(--text-dark);
+            font-size: 1.05em; /* Slightly larger text */
+            outline: none;
+        }
+
+        .header form input[type="text"]::placeholder {
+            color: var(--text-light);
+        }
+
+        .header form input[type="text"]:focus {
+            box-shadow: inset 0 0 0 2px var(--search-border-focus); /* Blue border on focus */
+        }
+
+        .header form button[type="submit"] {
+            padding: 12px 20px;
+            border: none;
+            background-color: var(--primary-green);
+            color: var(--text-color-white);
+            cursor: pointer;
+            font-size: 1.05em;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* Space between icon and text */
+        }
+
+        .header form button[type="submit"]:hover {
+            background-color: var(--button-hover-green);
+        }
+
+        /* --- Main Content Container --- */
+        .container {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 1280px; /* Wider content area */
+            margin: 30px auto;
+            padding: 0 25px;
+            position: relative;
+        }
+
+        .notices-list-section {
+            padding: 20px 0;
+        }
+
+        .notices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Slightly larger min-width */
+            gap: 25px;
+        }
+
+        /* --- Notice Card Styling --- */
+        .notice-card {
+            background-color: var(--card-bg);
+            border-radius: 12px; /* More rounded corners */
+            overflow: hidden;
+            box-shadow: 0 2px 8px var(--shadow-subtle); /* Lighter shadow */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid var(--border-light); /* Subtle border */
+        }
+
+        .notice-card:hover {
+            transform: translateY(-5px); /* Lift slightly on hover */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); /* More prominent shadow on hover */
+        }
+
+        .notice-card.important {
+            border: 2px solid var(--important-red);
+            box-shadow: 0 0 0 3px rgba(219, 68, 55, 0.2), 0 4px 15px var(--shadow-subtle); /* Red halo effect */
+        }
+
+        .notice-card-image {
+            width: 100%;
+            height: 220px; /* Taller images */
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid var(--border-light); /* Separator below image */
+        }
+
+        .notice-card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notice-card h3 {
+            font-size: 1.35em; /* Larger title font */
+            font-weight: 600; /* Bolder title */
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .notice-card p {
+            font-family: 'Open Sans', sans-serif; /* Secondary font for descriptions */
+            font-size: 0.95em;
+            color: var(--text-light);
+            margin-bottom: 18px;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .notice-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88em;
+            color: var(--text-light);
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .important-tag {
+            background-color: var(--important-red);
+            color: var(--text-color-white);
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            text-transform: uppercase;
+            font-size: 0.8em;
+        }
+
+        .important-tag .fas {
+            font-size: 0.85em;
+        }
+
+        .no-notices-message {
+            text-align: center;
+            padding: 60px 30px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-subtle);
+            font-size: 1.2em;
+            color: var(--text-dark);
+            margin: 40px auto;
+            width: fit-content;
+            max-width: 80%;
+            border: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .no-notices-message p:first-of-type {
+            font-weight: 500;
+            margin-bottom: 0;
+            color: var(--text-light);
+        }
+
+        .no-notices-message .fas {
+            color: var(--primary-green);
+            font-size: 3em;
+        }
+
+        /* --- Modal Styling for Notice Details --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 2000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: var(--backdrop-color); /* Black w/ opacity */
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            max-width: 700px; /* Max width for modal */
+            width: 90%;
+            animation: slideIn 0.3s ease-out;
+            max-height: 90vh; /* Limit height to prevent overflow on small screens */
+            overflow-y: auto; /* Enable scrolling for long content */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-close-button {
+            color: var(--text-light);
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close-button:hover,
+        .modal-close-button:focus {
+            color: var(--text-dark);
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 250px; /* Taller image in modal */
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .modal h2 {
+            color: var(--text-dark);
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .modal-description {
+            color: var(--text-light);
+            font-size: 1.1em;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            flex-grow: 1; /* Allow description to take available space */
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            color: var(--text-light);
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .modal-important-tag {
+            background-color: var(--important-red);
+            color: var(--text-color-white);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85em;
+        }
+        
+        /* Categories and Filters */
+        .filter-section {
+            display: flex;
+            justify-content: flex-start; /* Align to start for category buttons */
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--shadow-subtle);
+            border: 1px solid var(--border-light);
+        }
+
+        .filter-button {
+            background-color: #e8f0fe; /* Light Google blue */
+            color: var(--search-border-focus); /* Google blue text */
+            border: 1px solid #cce0ff;
+            padding: 10px 18px;
+            border-radius: 20px; /* Pill shape */
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .filter-button:hover {
+            background-color: #d2e3fc; /* Slightly darker blue on hover */
+            border-color: #a0c3ff;
+        }
+
+        .filter-button.active {
+            background-color: var(--primary-green);
+            color: var(--text-color-white);
+            border-color: var(--dark-green);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 992px) {
+            .notices-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+            .header {
+                padding: 15px 20px;
+            }
+            .header h1 {
+                font-size: 1.6em;
+            }
+            .container {
+                padding: 0 20px;
+            }
+            .filter-section {
+                justify-content: center; /* Center filters on smaller screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .header h1 {
+                font-size: 1.4em;
+            }
+            .header form {
+                width: 100%;
+                max-width: none;
+            }
+            .container {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+            .notices-grid {
+                grid-template-columns: 1fr; /* Single column layout for small screens */
+            }
+            .notice-card-image {
+                height: 200px;
+            }
+            .modal-content {
+                width: 95%;
+                padding: 25px;
+            }
+            .modal h2 {
+                font-size: 1.8em;
+            }
+            .modal-description {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 10px 15px;
+            }
+            .header h1 {
+                font-size: 1.2em;
+            }
+            .header-logo {
+                height: 35px;
+            }
+            .header form input[type="text"],
+            .header form button[type="submit"] {
+                padding: 10px 15px;
+                font-size: 0.95em;
+            }
+            .notice-card-image {
+                height: 160px;
+            }
+            .notice-card-content {
+                padding: 15px;
+            }
+            .notice-card h3 {
+                font-size: 1.2em;
+            }
+            .notice-card p {
+                font-size: 0.9em;
+            }
+            .notice-card-footer {
+                font-size: 0.85em;
+            }
+            .no-notices-message {
+                padding: 30px 15px;
+                font-size: 1.1em;
+            }
+            .modal-image {
+                height: 200px;
+            }
+        }
+        /* Footer Styling */
+        .footer {
+            background-color: var(--dark-green); /* Darker green background */
+            color: var(--text-color-white);
+            padding: 20px 30px;
+            text-align: center;
+            margin-top: 40px; /* Add some space above the footer */
+            box-shadow: 0 -2px 5px var(--shadow-subtle); /* Shadow on top edge */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            gap: 15px;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        .footer a {
+            color: var(--primary-green); /* Green link color */
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: var(--button-hover-green); /* Darker green on hover */
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div style="display: flex; align-items: center; flex-shrink: 0;">
+            <img src="{% static 'images/haven.png' %}" alt="School Logo" class="header-logo">
+            <h1><i class="fas fa-bullhorn"></i> Noti-me</h1>
+            
+        </div>
+        
+        <form id="searchForm" action="{% url 'search_view' %}" method="GET">
+            <input type="text" name="query" id="searchInput" placeholder="Search notices..." value="{{ query }}">
+            <button type="submit">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </form>
+        <small><b>Made with ❤️ by Ministry of ICT </b><a href="{% url 'login' %}">Login</a></small>
+    </header>
+
+    <main class="container">
+        <section class="filter-section">
+            <button class="filter-button active" data-category="all">All Notices</button>
+            <button class="filter-button" data-category="important">Important</button>
+            </section>
+{% if query and no_results %}
+    <p style="text-align: center;">No search results found for "{{ query }}".</p>
+{% else %}
+<p style="color: #34A853;text-align: center;">Results for {{query}} are.</p>
+{% endif %}
+        <section class="notices-list-section">
+            <div id="noticesContainer" class="notices-grid">
+                {% if notices %}
+                    {% for noti in notices %}
+                    {% if noti.img %}
+                    <a href="#" class="notice-card {% if noti.ckeck %}important{% endif %}"
+                            data-title="{{ noti.title }}"
+                            data-descri="{{ noti.descri }}"
+                            data-important="{{ noti.ckeck|yesno:'true,false' }}"
+                            data-img-url="{{ noti.img.url}}"
+                            data-timestamp="{{ notice.date_created.timestamp|floatformat:'0' }}" 
+                            data-category="{{ noti.category|lower|default:'uncategorized' }}"> 
+                        <img src="{{ noti.img.url }}" alt="{{ noti.title }}" class="notice-card-image">
+                        {% endif %}
+                        
+                        <div class="notice-card-content">
+                            <h3>{{ noti.title }}🔔</h3>
+                            <p>{{ noti.descri }}</p>
+                            <div class="notice-card-footer">
+                                {% if noti.ckeck %}
+                                <span class="important-tag"><i class="fas fa-exclamation-triangle"></i> Important</span>
+                                {% else %}
+                                <span></span> 
+                                {% endif %}
+                                <span class="notice-date">{{dean}}</span>
+                                <small><b style="color: #34A853;">{{ noti.created }}</b></small>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <div id="noNoticesMessage" class="no-notices-message">
+                        <p>No notices available at the moment. Please check back later!</p>
+                        <p><i class="fas fa-box-open"></i></p>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <div id="noticeModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close-button">&times;</span>
+            <img id="modalImage" class="modal-image" src="" alt="Notice Image" style="display: none;">
+            <h2 id="modalTitle"></h2>
+            <p id="modalDescription" class="modal-description"></p>
+            <div class="modal-footer">
+                <span id="modalImportantTag" class="important-tag" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Important</span>
+                <span id="modalDate" class="notice-date"></span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Elite made, Hope Haven School</p>
+        <a href="{% url 'developer_side' %}" style="color: white;">Developer Side</a>
+    </footer>
+
+
+   <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const noticesContainer = document.getElementById('noticesContainer');
+            const noticeCards = document.querySelectorAll('.notice-card');
+            const noNoticesMessage = document.getElementById('noNoticesMessage');
+            const searchInput = document.getElementById('searchInput');
+            const filterButtons = document.querySelectorAll('.filter-button');
+
+            // --- Modal Elements ---
+            const noticeModal = document.getElementById('noticeModal');
+            const modalCloseButton = document.querySelector('.modal-close-button');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalImportantTag = document.getElementById('modalImportantTag');
+            const modalDate = document.getElementById('modalDate');
+
+            // --- Pass the Django date to JavaScript ---
+            // You can embed the server-side date directly if needed for some logic, 
+            // but for displaying notice dates, it's better to use the notice's own timestamp.
+            // const djangoServerTimestamp = {{ current_timestamp }}; 
+            // console.log("Server date from Django:", new Date(djangoServerTimestamp));
+
+            // --- Open Modal Function ---
+            function openModal(title, description, imageUrl, isImportant, timestamp) {
+                modalTitle.textContent = title;
+                modalDescription.textContent = description;
+                
+                // Convert the timestamp (from data-timestamp) to a readable date string
+                // Ensure your 'date_created' field in Django is a DateTimeField and
+                // you're passing its timestamp correctly in the `data-timestamp` attribute.
+                if (timestamp) {
+                    modalDate.textContent = new Date(parseInt(timestamp) * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                } else {
+                    modalDate.textContent = ''; // Or handle as needed if no timestamp
+                }
+
+                if (imageUrl && imageUrl !== 'None') { // Check for empty string or 'None' from Django
+                    modalImage.src = imageUrl;
+                    modalImage.style.display = 'block'; 
+                } else {
+                    modalImage.src = ''; 
+                    modalImage.style.display = 'none'; 
+                }
+
+                if (isImportant === 'true') {
+                    modalImportantTag.style.display = 'flex';
+                } else {
+                    modalImportantTag.style.display = 'none';
+                }
+                noticeModal.style.display = 'flex'; 
+            }
+
+            // --- Close Modal Function ---
+            function closeModal() {
+                noticeModal.style.display = 'none';
+            }
+
+            // --- Event Listeners for Notice Cards (Open Modal) ---
+            noticeCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    e.preventDefault(); 
+                    const title = this.dataset.title;
+                    const descri = this.dataset.descri;
+                    const imageUrl = this.dataset.imgUrl;
+                    const important = this.dataset.important;
+                    const timestamp = this.dataset.timestamp; // Get the timestamp from the data attribute
+                    openModal(title, descri, imageUrl, important, timestamp);
+                });
+            });
+
+            // --- Event Listeners for Modal Close Button & Outside Click ---
+            modalCloseButton.addEventListener('click', closeModal);
+            noticeModal.addEventListener('click', function(e) {
+                if (e.target === noticeModal) { 
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && noticeModal.style.display === 'flex') {
+                    closeModal();
+                }
+            });
+
+            // --- Client-Side Search Functionality ---
+            searchInput.addEventListener('keyup', function() {
+                const query = searchInput.value.toLowerCase();
+                let resultsFound = false;
+
+                noticeCards.forEach(card => {
+                    const title = card.dataset.title.toLowerCase();
+                    const description = card.dataset.descri.toLowerCase();
+                    
+                    const isActiveCategory = document.querySelector('.filter-button.active').dataset.category;
+                    const cardCategory = card.dataset.category;
+                    const isImportant = card.dataset.important === 'true';
+
+                    const matchesCategory = (isActiveCategory === 'all' || 
+                                             isActiveCategory === cardCategory ||
+                                             (isActiveCategory === 'important' && isImportant));
+
+                    if (matchesCategory && (title.includes(query) || description.includes(query))) {
+                        card.style.display = 'flex';
+                        resultsFound = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                if (resultsFound) {
+                    noNoticesMessage.style.display = 'none';
+                } else {
+                    noNoticesMessage.style.display = 'flex';
+                }
+            });
+
+            // --- Filtering Functionality ---
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const category = this.dataset.category;
+                    let resultsFound = false;
+
+                    noticeCards.forEach(card => {
+                        const cardCategory = card.dataset.category;
+                        const isImportant = card.dataset.important === 'true';
+
+                        const currentSearchQuery = searchInput.value.toLowerCase();
+                        const title = card.dataset.title.toLowerCase();
+                        const description = card.dataset.descri.toLowerCase();
+                        const matchesSearch = title.includes(currentSearchQuery) || description.includes(currentSearchQuery);
+
+                        if (matchesSearch && (category === 'all' || cardCategory === category || (category === 'important' && isImportant))) {
+                            card.style.display = 'flex';
+                            resultsFound = true;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    if (resultsFound) {
+                        noNoticesMessage.style.display = 'none';
+                    } else {
+                        noNoticesMessage.style.display = 'flex';
+                    }
+                });
+            });
+
+            // Initial check for no notices if the page loads with an empty list
+            if (noticeCards.length === 0) {
+                noNoticesMessage.style.display = 'flex';
+            } else {
+                noNoticesMessage.style.display = 'none'; 
+            }
+        });
+    </script>
+</body>
+</html>

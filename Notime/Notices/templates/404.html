@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Noti-me</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlalHpxh0N6qfJ+b1o+2A2sWk4y2d9L2/Kx4f2Q2qI/S8pG/rN5nO3tVn4n0b2qW7wK8z3sY2W3v7B7w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- Professional Green Theme for Student Notices (Google-Inspired) --- */
+        :root {
+            --primary-green: #34A853; /* Google-like green */
+            --dark-green: #2B7C41;    /* Darker green for header */
+            --light-green-bg: #F0F4F8; /* Very light, subtle grey-blue background */
+            --card-bg: #ffffff;      /* Pure white for notice cards */
+            --text-dark: #202124;     /* Google-like dark text */
+            --text-light: #5F6368;    /* Google-like secondary text */
+            --border-light: #DADCE0;  /* Light grey border */
+            --shadow-subtle: rgba(60, 64, 67, 0.15); /* Soft Google-like shadow */
+            --important-red: #DB4437; /* Google-like red for important */
+            --search-border-focus: #4285F4; /* Google blue for focus */
+            --button-hover-green: #2E8B4E; /* Slightly darker green on hover */
+            --text-color-white: #ffffff; /* Explicit white for text on dark backgrounds */
+            --backdrop-color: rgba(0, 0, 0, 0.6); /* For modal backdrop */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif; /* Primary font */
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light-green-bg);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center; /* Center content horizontally */
+            justify-content: center; /* Center content vertically */
+            text-align: center; /* Center text within the body */
+        }
+
+        /* --- Header Styling (kept minimal for 404, or removed if desired) --- */
+        .header {
+            background-color: var(--dark-green);
+            color: var(--text-color-white);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center header content */
+            gap: 25px;
+            box-shadow: 0 2px 5px var(--shadow-subtle);
+            width: 100%; /* Ensure header spans full width */
+            position: absolute; /* Position at the top */
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .header-logo {
+            height: 40px;
+            margin-right: 15px;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            font-weight: 500;
+            color: var(--text-color-white);
+        }
+
+        .header h1 .fas {
+            margin-right: 10px;
+            color: var(--primary-green);
+        }
+        
+        /* --- 404 Specific Styling --- */
+        .not-found-container {
+            background-color: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-subtle);
+            max-width: 600px;
+            width: 90%;
+            margin: auto; /* Center the container */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            border: 1px solid var(--border-light);
+        }
+
+        .not-found-container .status-code {
+            font-size: 6em;
+            font-weight: 700;
+            color: var(--primary-green);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .not-found-container h2 {
+            font-size: 2.2em;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .not-found-container p {
+            font-size: 1.1em;
+            color: var(--text-light);
+            margin-bottom: 25px;
+        }
+
+        .not-found-container a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--primary-green);
+            color: var(--text-color-white);
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05em;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .not-found-container a:hover {
+            background-color: var(--button-hover-green);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments for 404 page */
+        @media (max-width: 768px) {
+            .not-found-container {
+                padding: 30px 20px;
+                gap: 20px;
+            }
+            .not-found-container .status-code {
+                font-size: 5em;
+            }
+            .not-found-container h2 {
+                font-size: 1.8em;
+            }
+            .not-found-container p {
+                font-size: 1em;
+            }
+            .not-found-container a {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 15px;
+                gap: 10px;
+            }
+            .header h1 {
+                font-size: 1.4em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .not-found-container {
+                padding: 25px 15px;
+                gap: 15px;
+            }
+            .not-found-container .status-code {
+                font-size: 4em;
+            }
+            .not-found-container h2 {
+                font-size: 1.5em;
+            }
+            .not-found-container p {
+                font-size: 0.9em;
+            }
+            .not-found-container a {
+                padding: 8px 15px;
+                font-size: 0.95em;
+            }
+            .header h1 {
+                font-size: 1.2em;
+            }
+            .header-logo {
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div style="display: flex; align-items: center; flex-shrink: 0;">
+            <img src="{% static 'images/haven.png' %}" alt="School Logo" class="header-logo">
+            <h1><i class="fas fa-bullhorn"></i> Noti-me</h1>
+        </div>
+    </header>
+
+    <div class="not-found-container">
+        <div class="status-code">404</div>
+        <h2>Page Not Found</h2>
+        <p>Oops! The page you're looking for doesn't exist or has been moved.</p>
+        <a href="{% url 'home' %}">
+            <i class="fas fa-home"></i> Go to Homepage
+        </a>
+    </div>
+</body>
+</html>

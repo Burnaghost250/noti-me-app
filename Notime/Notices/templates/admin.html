@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noti-me | Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlalHpxh0N6qfJ+b1o+2A2sWk4y2d9L2/Kx4f2Q2qI/S8pG/rN5nO3tVn4n0b2qW7wK8z3sY2W3v7B7w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght=400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Professional Green Theme for Admin Panel (Google-Inspired) --- */
+        :root {
+            --primary-green: #34A853; /* Google-like green */
+            --dark-green: #2B7C41;    /* Darker green for header */
+            --light-green-bg: #F0F4F8; /* Very light, subtle grey-blue background */
+            --card-bg: #ffffff;      /* Pure white for form/card elements */
+            --text-dark: #202124;     /* Google-like dark text */
+            --text-light: #5F6368;    /* Google-like secondary text */
+            --border-light: #DADCE0;  /* Light grey border */
+            --shadow-subtle: rgba(60, 64, 67, 0.15); /* Soft Google-like shadow */
+            --important-red: #DB4437; /* Google-like red for important (checkbox) */
+            --search-border-focus: #4285F4; /* Google blue for focus (form inputs) */
+            --button-hover-green: #2E8B4E; /* Slightly darker green on hover */
+            --text-color-white: #ffffff; /* Explicit white for text on dark backgrounds */
+            --input-bg: #f8f8f8; /* Light background for inputs */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light-green-bg);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Header Styling (Copied from hope.html) --- */
+        .header {
+            background-color: var(--dark-green);
+            color: var(--text-color-white);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center the title */
+            gap: 25px;
+            box-shadow: 0 2px 5px var(--shadow-subtle);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            font-weight: 500;
+            color: var(--text-color-white);
+        }
+
+        .header h1 .fas {
+            margin-right: 10px;
+            color: var(--primary-green); /* Use primary green on dark background */
+        }
+
+        /* --- Main Content Container (Copied from hope.html) --- */
+        .container {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 900px; /* Slightly narrower for admin form */
+            margin: 30px auto;
+            padding: 0 25px;
+        }
+
+        /* --- Sections on Admin Page --- */
+        .notices-list-section {
+            padding: 20px 0;
+            text-align: center; /* Center the "Add notices" heading */
+        }
+        
+        .notices-list-section h2 {
+            color: var(--text-dark); /* Dark text for section title */
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .no-notices-message {
+            text-align: center;
+            padding: 40px 30px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-subtle);
+            font-size: 1.1em;
+            color: var(--text-light);
+            margin: 20px auto;
+            width: fit-content;
+            max-width: 80%;
+            border: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .no-notices-message p:first-of-type {
+            font-weight: 500;
+            margin-bottom: 0;
+            color: var(--text-dark); /* Darker text for main message */
+        }
+
+        .no-notices-message .fas {
+            color: var(--primary-green); /* Icon color */
+            font-size: 2.5em;
+        }
+
+        /* --- Add Notice Form Styling --- */
+        .add-notice-section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-subtle);
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid var(--border-light);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 1.05em;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1em;
+            color: var(--text-dark);
+            background-color: var(--input-bg);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--search-border-focus);
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2); /* Soft blue shadow on focus */
+        }
+
+        .form-group textarea {
+            resize: vertical; /* Allow vertical resizing */
+            min-height: 90px;
+        }
+
+        /* File input custom styling (needs JavaScript for full customization) */
+        .form-group input[type="file"] {
+            display: none; /* Hide default file input */
+        }
+
+        .form-group input[type="file"] + label {
+            display: inline-block;
+            background-color: var(--light-green-bg); /* Light background for file label */
+            color: var(--text-dark);
+            padding: 10px 18px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            margin-top: 5px; /* Space between label and input */
+        }
+
+        .form-group input[type="file"] + label:hover {
+            background-color: #e6edf4; /* Slightly darker on hover */
+            border-color: #c4d7e7;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            appearance: none; /* Hide default checkbox */
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border-light);
+            border-radius: 6px;
+            display: grid;
+            place-content: center;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .checkbox-group input[type="checkbox"]::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            transform: scale(0);
+            transition: transform 0.2s ease;
+            box-shadow: inset 1em 1em var(--primary-green); /* Green checkmark */
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 60%);
+        }
+
+        .checkbox-group input[type="checkbox"]:checked {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+        }
+
+        .checkbox-group input[type="checkbox"]:checked::before {
+            transform: scale(1);
+        }
+
+        .checkbox-group label {
+            color: var(--text-dark);
+            font-size: 1em;
+            cursor: pointer;
+            margin-bottom: 0; /* Remove default label margin */
+        }
+
+        /* Submit Button */
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--primary-green);
+            color: var(--text-color-white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            width: 100%; /* Full width button */
+            margin-top: 15px; /* Space above button */
+        }
+
+        .btn-primary:hover {
+            background-color: var(--button-hover-green);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Footer Styling --- */
+        .footer {
+            background-color: var(--dark-green);
+            color: var(--text-color-white);
+            text-align: center;
+            padding: 15px 0;
+            margin-top: auto; /* Pushes footer to the bottom */
+            box-shadow: 0 -2px 5px var(--shadow-subtle);
+            font-size: 0.9em;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+            .header h1 {
+                font-size: 1.6em;
+            }
+            .container {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+            .notices-list-section h2 {
+                font-size: 1.6em;
+                margin-bottom: 20px;
+            }
+            .add-notice-section {
+                padding: 25px;
+            }
+            .form-group label {
+                font-size: 1em;
+            }
+            .form-group input[type="text"],
+            .form-group textarea {
+                padding: 10px 12px;
+                font-size: 0.95em;
+            }
+            .btn-primary {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+            .no-notices-message {
+                padding: 30px 20px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.4em;
+            }
+            .header h1 .fas {
+                margin-right: 8px;
+            }
+            .add-notice-section {
+                padding: 20px;
+            }
+            .form-group input[type="file"] + label {
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+            .checkbox-group label {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1><i class="fas fa-comment-dots"></i> Noti-me  Admin</h1> 
+        <button style="padding: 10px;color: wheat;border-radius: 10px;"><a href="{% url 'admin_delete' %}" style="text-decoration: none;">View your notices</a></button>
+        <button style="padding: 10px;color: wheat;border-radius: 10px;"><a href="{% url 'logout' %}" style="text-decoration: none;">Logout</a></button>
+    </header>
+
+    <main class="container">
+        <section class="notices-list-section">
+            <h2>Add New Notice <b>{{username}}</b></h2> 
+        </section>
+
+        <section class="add-notice-section">
+            <form  method="POST" enctype="multipart/form-data"> 
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="noticeTitle">Notice Title:</label>
+                    <input type="text"  name="title" placeholder="Short & clear title" required>
+                </div>
+                <div class="form-group">
+                    <label for="noticeContent">Details:</label>
+                    <textarea  rows="5" name="descri" placeholder="Type your notice details here..." required></textarea> 
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox"  name="ckeck">
+                    <label for="noticeImportant">Mark as Important</label>
+                </div>
+                <label for="noticeImportant">Upload an image</label>
+                    <input type="file"  name="img" accept=".jpg,.png">
+                    
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Publish Notice
+                </button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
